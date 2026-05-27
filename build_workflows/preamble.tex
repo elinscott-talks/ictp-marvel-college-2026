@@ -1,0 +1,40 @@
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\input{seaborn_colours.tex}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,backgrounds,fit,calc,external,trees,tikzmark}
+\tikzstyle{dummy} = []
+\tikzstyle{line} = [draw, thick, -latex']
+\tikzstyle{headless_line} = [draw, thick, -]
+\tikzstyle{default}    = [rectangle, text centered, rounded corners, text=black, font=\sffamily\footnotesize, align=center]
+\tikzstyle{default_text}    = [rectangle, text width=10cm, text=black,anchor=north west, font=\sffamily]
+\tikzstyle{boxwhite} = [default, fill=white, rounded corners=0.1cm]
+\tikzstyle{cp}    = [default, fill=seaborn_blue, text=white, text width=2.8cm, minimum height=0.7cm]
+\tikzstyle{pw}    = [cp, fill=seaborn_green]
+\tikzstyle{wannier90}    = [cp, fill=seaborn_cyan]
+\tikzstyle{bespoke}    = [cp, fill=seaborn_magenta]
+\tikzstyle{kcw}    = [cp, fill=seaborn_yellow]
+\tikzstyle{w2k}    = [cp, fill=seaborn_magenta]
+\tikzstyle{observable}    = [cp, fill=seaborn_red]
+\tikzstyle{label} = [circle, text=white, fill=black, font=\sffamily\tiny\bfseries, minimum size=0.3cm, inner sep=1pt]
+\tikzset{
+  -|-/.style={
+    to path={
+      (\tikztostart) -| ($(\tikztostart)!#1!(\tikztotarget)$) |- (\tikztotarget)
+      \tikztonodes
+    }
+  },
+  -|-/.default=0.5,
+  |-|/.style={
+    to path={
+      (\tikztostart) |- ($(\tikztostart)!#1!(\tikztotarget)$) -| (\tikztotarget)
+      \tikztonodes
+    }
+  },
+  |-|/.default=0.5,
+}
+\newlength{\myyshift}
+\setlength{\myyshift}{0.05cm}

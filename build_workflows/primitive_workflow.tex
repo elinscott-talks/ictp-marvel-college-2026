@@ -1,0 +1,37 @@
+\begin{tikzpicture}[font=\tiny, x=3.5cm, y=1cm]
+   \begin{pgfonlayer}{background}
+      \fill [seaborn_bg_grey_dark] (-2.2,-1) rectangle (1.2,1.5);
+      \node at (-2.2, 1.5) [default_text] {\large Initialisation};
+      \fill [seaborn_bg_grey_dark] (1.3,-1) rectangle (3.7,1.5);
+      \node at (1.3, 1.5) [default_text] {\large Calculating screening parameters};
+      \fill [seaborn_bg_grey_dark] (3.8,-1) rectangle (5.2,1.5);
+      \node at (3.8, 1.5) [default_text, text width=3.5cm] {\large Final calculation};
+      % \fill [seaborn_bg_grey_dark] (8.1,-1) rectangle (9.1,1.5);
+      % \node at (8.1, 1.5) [default_text, text width=3.5cm] {\large Postprocessing};
+   \end{pgfonlayer}
+
+   % Key
+   \node at (3.45, 2.15) [pw, text width=1.4cm, minimum height=0.7cm] {\texttt{pw\vphantom{0}}};
+   \node at (3.95, 2.15) [wannier90, text width=1.4cm, minimum height=0.7cm] {\texttt{w90}};
+   \node at (4.45, 2.15) [kcw, text width=1.4cm, minimum height=0.7cm] {\texttt{kcw}};
+   \node at (4.95, 2.15) [observable, text width=1.4cm, minimum height=0.7cm, font=\tiny\sffamily] {quantity of interest};
+
+   % Initialisation
+   % Solids
+   \node at (-1.5, 0) [pw] (pw DFT init) {DFT};
+   \node at (-0.5, 0) [wannier90] (wannierize) {wannierize};
+   \node at (0.5, 0) [kcw] (w2k) {Wannier function conversion};
+   \path [line] (pw DFT init) -- (wannierize);
+   \path [line] (wannierize) -- (w2k);
+
+   % Calculating screening parameters
+   \node at (2, 0) [kcw] (KC screen) {DFPT calculation};
+   \node at (3, 0) [observable] (alphas) {$\{\alpha_i\}$};
+   \path [line] (w2k) -- (KC screen);
+   \path [line] (KC screen) -- (alphas);
+
+   % Final calc
+   \node at (4.5, 0) [kcw] (KC ham) {$\alpha_0$KI/$\alpha_0$KIPZ};
+   \path [line] (alphas) -- (KC ham);
+
+\end{tikzpicture}
