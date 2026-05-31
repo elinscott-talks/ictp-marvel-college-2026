@@ -672,22 +672,17 @@ Complicated workflows mean that...
 // ===========================================================================
 == koopmans is scriptable
 
+
 #listing("scripts/si.py", lang: "python", size: 0.78em)
 
-// ===========================================================================
-== Introducing #raw("koopmans") v2
-
-#align(center, image("figures/koopmans_grey_on_transparent.png", height: 18%))
-
-#v(1em)
-A major new release is on the way...
 #pause
-- a new *AiiDA*-powered engine #pause
-- automated Wannierisation #pause
-- and more...
+but don't get too used to it... #pause
 
-// ===========================================================================
-== #raw("koopmans") v2: powered by AiiDA
+#focus-slide()[
+  🚧 koopmans v2 is coming... 🚧
+]
+
+== 
 @Huber2020
 #v(-2em)
 #align(center,
@@ -697,11 +692,14 @@ A major new release is on the way...
     image("figures/handshake.png", height: 2em, alt: "handshake"),
     image("media/logos/aiida.svg", height: 3em)
   )
-  #pause `$ koopmans run tio2.json` #pause $arrow.r$ `$ koopmans run --engine=aiida tio2.json`
   ]
 )
 
-remote compute, parallel step execution, provenance-tracking, (requires configuration, WIP...)
+- remote compute
+- parallel step execution
+- provenance-tracking
+- error recovery
+- and more!
 
 #pause
 #align(center,
@@ -731,19 +729,6 @@ remote compute, parallel step execution, provenance-tracking, (requires configur
 )
 ]
 
-// ===========================================================================
-== Keep your eyes peeled!
-
-#align(center, image("figures/koopmans_grey_on_transparent.png", height: 20%))
-
-#v(0.5em)
-*#raw("koopmans") v2* is coming soon -- with the AiiDA engine, automated Wannierisation, and more
-
-#v(0.5em)
-#align(center)[watch this space: #link("https://koopmans-functionals.org")[`koopmans-functionals.org`]]
-
-
-// ===========================================================================
 // == Generic structure
 // 
 // #set text(size: 0.9em)
@@ -761,9 +746,9 @@ remote compute, parallel step execution, provenance-tracking, (requires configur
 == Take home messages
 
 #align(center, grid(columns: 3, column-gutter: 1.5em, align: horizon,
-  image("figures/colonna_2019_gw100_ip.jpeg", height: 18%),
-  image("figures/fig_nguyen_prx_bandgaps.png", height: 18%),
-  image("figures/supercell_workflow.svg", height: 18%),
+  image("figures/colonna_2019_gw100_ip.jpeg", height: 23%),
+  image("figures/fig_nguyen_prx_bandgaps.png", height: 23%),
+  image("figures/supercell_workflow.svg", height: 23%),
 ))
 
 - Koopmans functionals are more complicated than a simple semi-local DFT calculation, because of...
@@ -771,6 +756,7 @@ remote compute, parallel step execution, provenance-tracking, (requires configur
   - screening parameters
 - Koopmans functionals are implemented in #smallcaps[Quantum ESPRESSO]
 - the complexity of the workflows are handled by the #raw("koopmans") package
+- keep your eyes peeled for `v2`!
 
 // ===========================================================================
 == Take home messages
@@ -778,6 +764,9 @@ remote compute, parallel step execution, provenance-tracking, (requires configur
 #align(center + horizon, image("figures/jctc.png", width: 100%))
 
 // ===========================================================================
+
+#focus-slide()[Thank you!]
+
 == Acknowledgements
 
 #align(center + horizon)[
@@ -816,7 +805,7 @@ remote compute, parallel step execution, provenance-tracking, (requires configur
 #focus-slide[Spare slides]
 
 // ===========================================================================
-== Koopmans functionals: off-diagonal occupancies
+== Off-diagonal occupancies
 
 #block(fill: luma(235), inset: 12pt, radius: 4pt, width: 100%)[
   *Recap from earlier*
@@ -830,46 +819,3 @@ remote compute, parallel step execution, provenance-tracking, (requires configur
 
 #v(1em)
 zero band gap $arrow$ occupancy matrix for variational orbitals is off-diagonal
-
-// ===========================================================================
-== Learning the screening parameters
-
-#align(center)[
-  #grid(columns: 5, column-gutter: 1.2em, align: horizon + center,
-    [#image("figures/orbital.emp.00191_cropped.png", width: 3cm) \ $rho_i (bold(r))$],
-    connector[power spectrum \ decomposition],
-    $ vec(x_0, x_1, x_2, dots.v) $,
-    connector[ML model],
-    $ alpha_i $,
-  )
-]
-@Schubert2022
-
-$
-  c_(n l m, k = "orbital")^i & = integral dif bold(r) thin g_(n l) (r) Y_(l m) (theta, phi) rho^i (bold(r) - bold(R)^i) \
-  p_(n_1 n_2 l, k_1 k_2)^i & = pi sqrt(8/(2 l + 1)) sum_m c_(n_1 l m, k_1)^(i *) c_(n_2 l m, k_2)^i
-$
-
-// ===========================================================================
-// TODO: this spare slide's running header wrongly shows the *next* slide's
-// title ("Resonance with other efforts"). It's a touying heading-location
-// quirk tied to the "layout did not converge" warning, which destabilises
-// page numbers; the slide content itself is correct. Investigate separately.
-== Learning the screening parameters: results
-
-#align(center)[
-  #grid(columns: (1fr, 1fr), column-gutter: 1em, align: center + horizon,
-    image("figures/CsSnI3_calc_vs_pred_Edward.png", height: 55%),
-    image("figures/convergence_analysis_Edward.png", height: 55%),
-  )
-
-  #v(0.5em)
-  loss of accuracy of the band gap of $tilde 0.02$ eV
-
-  (cf. when calculating screening parameters _ab initio_)
-
-  speedup of $70 times$
-]
-@Schubert2022
-
-// ===========================================================================
