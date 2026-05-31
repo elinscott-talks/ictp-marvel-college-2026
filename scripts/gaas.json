@@ -1,0 +1,41 @@
+{
+    "workflow": {
+        "functional": "ki",
+        "method": "dfpt",
+        "init_orbitals": "mlwfs",
+        "pseudo_library": "PseudoDojo/0.4/LDA/SR/standard/upf",
+        "block_wannierization_threshold": 5.0,
+        "orbital_groups_spread_tol": 0.05
+    },
+    "atoms": {
+        "cell_parameters": {
+            "periodic": true,
+            "ibrav": 2,
+            "celldms": {"1": 10.68374}
+        },
+        "atomic_positions": {
+            "units": "crystal",
+            "positions": [["Ga", 0.00, 0.00, 0.00],
+                          ["As", 0.25, 0.25, 0.25]]
+        }
+    },
+    "kpoints": {
+        "grid": [6, 6, 6]
+    },
+    "calculator_parameters": {
+        "ecutwfc": 60.0,
+        "w90": {
+            "projections": [
+                [{"site": "As", "ang_mtm": "d"},
+                 {"site": "Ga", "ang_mtm": "d"},
+                 {"site": "As", "ang_mtm": "sp3"}],
+                [{"site": "Ga", "ang_mtm": "sp3"}]
+            ],
+            "dis_froz_max": 14.6,
+            "dis_win_max": 18.6
+        },
+        "ui": {
+           "smooth_int_factor": 2
+        }
+    }
+}

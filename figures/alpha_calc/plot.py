@@ -61,4 +61,4 @@ if __name__ == '__main__':
         ax.set_xticks([])
         ax.set_yticks([])
         sns.despine()
-        plt.savefig(f'fig_alpha_calc_step_{step}.pdf', format='pdf')
+        plt.savefig(f'fig_alpha_calc_step_{step}.svg', format='svg')

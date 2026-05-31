@@ -401,3 +401,97 @@
   pages = {203--215},
   urldate = {2020-04-04}
 }
+
+@article{Stojkovic2026,
+  title = {Predicting the suitability of photocatalysts for water splitting using Koopmans spectral functionals: The case of {TiO₂} polymorphs},
+  author = {Stojkovic, Marija and Linscott, Edward B. and Marzari, Nicola},
+  year = {2026},
+  journal = {Phys. Rev. Mater.},
+  volume = {10},
+  number = {2},
+  pages = {025403},
+  publisher = {{American Physical Society}},
+  doi = {10.1103/6gqw-thc1},
+  url = {https://doi.org/10.1103/6gqw-thc1}
+}
+
+@article{Schubert2024,
+  title = {Predicting electronic screening for fast {{Koopmans}} spectral functional calculations},
+  author = {Schubert, Yannick and Luber, Sandra and Marzari, Nicola and Linscott, Edward},
+  date = {2024-12-20},
+  journaltitle = {npj Comput Mater},
+  volume = {10},
+  number = {1},
+  pages = {1--12},
+  publisher = {Nature Publishing Group},
+  issn = {2057-3960},
+  doi = {10.1038/s41524-024-01484-3},
+  abstract = {Koopmans spectral functionals are a powerful extension of Kohn-Sham density-functional theory (DFT) that enables the prediction of spectral properties with state-of-the-art accuracy. The success of these functionals relies on capturing the effects of electronic screening through scalar, orbital-dependent parameters. These parameters have to be computed for every calculation, making Koopmans spectral functionals more expensive than their DFT counterparts. In this work, we present a machine-learning model that—with minimal training—can predict these screening parameters directly from orbital densities calculated at the DFT level. We show in two prototypical use cases that using the screening parameters predicted by this model, instead of those calculated from linear response, leads to orbital energies that differ by less than 20\,meV on average. Since this approach dramatically reduces run times with minimal loss of accuracy, it will enable the application of Koopmans spectral functionals to classes of problems that previously would have been prohibitively expensive, such as the prediction of temperature-dependent spectral properties. More broadly, this work demonstrates that measuring violations of piecewise linearity (i.e., curvature in total energies with respect to occupancies) can be done efficiently by combining frozen-orbital approximations and machine learning.},
+  langid = {english},
+  keywords = {Computational methods,Condensed Matter - Materials Science,Electronic properties and materials,Electronic structure,Physics - Chemical Physics,Physics - Computational Physics}
+}
+
+@article{DeGennaro2022a,
+  title = {Bloch's theorem in orbital-density-dependent functionals: {{Band}} structures from {{Koopmans}} spectral functionals},
+  shorttitle = {Bloch's theorem in orbital-density-dependent functionals},
+  author = {De Gennaro, Riccardo and Colonna, Nicola and Linscott, Edward and Marzari, Nicola},
+  date = {2022-07-05},
+  journaltitle = {Phys. Rev. B},
+  volume = {106},
+  number = {3},
+  pages = {035106},
+  publisher = {American Physical Society},
+  doi = {10.1103/PhysRevB.106.035106},
+  abstract = {Koopmans-compliant functionals provide an orbital-density-dependent framework for an accurate evaluation of spectral properties; they are obtained by imposing a generalized piecewise-linearity condition on the total energy of the system with respect to the occupation of any orbital. In crystalline materials, due to the orbital-density-dependent nature of the functionals, minimization of the total energy to a ground state provides a set of minimizing variational orbitals that are localized and thus break the periodicity of the underlying lattice. Despite this, we show that Bloch symmetry can be preserved and it is possible to describe the electronic states with a band-structure picture, thanks to the Wannier-like character of the variational orbitals. We also present a method to unfold and interpolate the electronic bands from supercell (Γ-point) calculations, which enables us to calculate full band structures with Koopmans-compliant functionals. The results obtained for a set of benchmark semiconductors and insulators show very good agreement with state-of-the-art many-body perturbation theory and experiments, underscoring the reliability of these spectral functionals in predicting band structures.}
+}
+
+@article{Qiao2023,
+  title = {Projectability disentanglement for accurate and automated electronic-structure {{Hamiltonians}}},
+  author = {Qiao, Junfeng and Pizzi, Giovanni and Marzari, Nicola},
+  date = {2023-11-03},
+  journaltitle = {npj Comput Mater},
+  volume = {9},
+  pages = {208},
+  issn = {2057-3960},
+  doi = {10.1038/s41524-023-01146-w},
+  abstract = {Maximally-localized Wannier functions (MLWFs) are broadly used to characterize the electronic structure of materials. Generally, one can construct MLWFs describing isolated bands (e.g. valence bands of insulators) or entangled bands (e.g. valence and conduction bands of insulators, or metals). Obtaining accurate and compact MLWFs often requires chemical intuition and trial and error, a challenging step even for experienced researchers and a roadblock for high-throughput calculations. Here, we present an automated approach, projectability-disentangled Wannier functions (PDWFs), that constructs MLWFs spanning the occupied bands and their complement for the empty states, providing a tight-binding picture of optimized atomic orbitals in crystals. Key to the algorithm is a projectability measure for each Bloch state onto atomic orbitals, determining if that state should be kept identically, discarded, or mixed into the disentanglement. We showcase the accuracy on a test set of 200 materials, and the reliability by constructing 21,737 Wannier Hamiltonians.},
+  langid = {english},
+  keywords = {Computational methods,Electronic structure}
+}
+
+@article{Qiao2023a,
+  title = {Automated mixing of maximally localized {{Wannier}} functions into target manifolds},
+  author = {Qiao, Junfeng and Pizzi, Giovanni and Marzari, Nicola},
+  date = {2023-10-31},
+  journaltitle = {npj Comput Mater},
+  volume = {9},
+  pages = {206},
+  issn = {2057-3960},
+  doi = {10.1038/s41524-023-01147-9},
+  abstract = {Maximally localized Wannier functions (MLWFs) are widely used in electronic-structure calculations. We have recently developed automated approaches to generate MLWFs that represent natural tight-binding sets of atomic-like orbitals; these describe accurately both the occupied states and the complementary unoccupied ones. For many applications, it is required to use MLWFs that describe instead certain target groups of bands: the valence or the conduction bands, or correlated manifolds. Here, we start from these tight-binding sets of MLWFs, and mix them using a combination of parallel transport and maximal localization to construct manifold-remixed Wannier functions (MRWFs): these are orthogonal sets of MLWFs that fully and only span desired target submanifolds. The algorithm is simple and robust, and is showcased here in reference applications (silicon, MoS2, and SrVO3) and in a mid-throughput study of 77 insulators.},
+  langid = {english},
+  keywords = {Electronic properties and materials,Electronic structure}
+}
+
+@article{Huber2020,
+  title = {{{AiiDA}} 1.0, a scalable computational infrastructure for automated reproducible workflows and data provenance},
+  author = {Huber, Sebastiaan P. and Zoupanos, Spyros and Uhrin, Martin and Talirz, Leopold and Kahle, Leonid and Häuselmann, Rico and Gresch, Dominik and Müller, Tiziano and Yakutovich, Aliaksandr V. and Andersen, Casper W. and Ramirez, Francisco F. and Adorf, Carl S. and Gargiulo, Fernando and Kumbhar, Snehal and Passaro, Elsa and Johnston, Conrad and Merkys, Andrius and Cepellotti, Andrea and Mounet, Nicolas and Marzari, Nicola and Kozinsky, Boris and Pizzi, Giovanni},
+  date = {2020-09-08},
+  journaltitle = {Sci Data},
+  volume = {7},
+  number = {1},
+  pages = {300},
+  publisher = {Nature Publishing Group},
+  issn = {2052-4463},
+  doi = {10.1038/s41597-020-00638-4},
+  abstract = {The ever-growing availability of computing power and the sustained development of advanced computational methods have contributed much to recent scientific progress. These developments present new challenges driven by the sheer amount of calculations and data to manage. Next-generation exascale supercomputers will harden these challenges, such that automated and scalable solutions become crucial. In recent years, we have been developing AiiDA (aiida.net), a robust open-source high-throughput infrastructure addressing the challenges arising from the needs of automated workflow management and data provenance recording. Here, we introduce developments and capabilities required to reach sustained performance, with AiiDA supporting throughputs of tens of thousands processes/hour, while automatically preserving and storing the full data provenance in a relational database making it queryable and traversable, thus enabling high-performance data analytics. AiiDA’s workflow language provides advanced automation, error handling features and a flexible plugin model to allow interfacing with external simulation software. The associated plugin registry enables seamless sharing of extensions, empowering a vibrant user community dedicated to making simulations more robust, user-friendly and reproducible.},
+  issue = {1},
+  langid = {english},
+  keywords = {Computational methods,Research management},
+  annotation = {Bandiera\_abtest: a\\
+Cc\_license\_type: cc\_by\\
+Cg\_type: Nature Research Journals\\
+Primary\_atype: Research\\
+Subject\_term: Computational methods;Research management\\
+Subject\_term\_id: computational-methods;research-management}
+}
