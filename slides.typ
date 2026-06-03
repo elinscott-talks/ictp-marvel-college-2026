@@ -194,8 +194,7 @@ Other features of orbital-density-dependence
 
 == Screening
 
-#set text(size: 0.9em)
-- In Hartree-Fock (the original "Koopmans' theorem")@Li2017
+In *Hartree-Fock* (the original "Koopmans' theorem")@Li2017
   $
     E_"ee"^"HF" = 1/2 sum_(i j) f_i f_j integral dif bold(r) dif bold(r)'
     (|psi_i (bold(r))|^2 |psi_j (bold(r)')|^2)/(bold(r) - bold(r)')
@@ -205,7 +204,9 @@ Other features of orbital-density-dependence
   $
     (d^2 E_"ee"^"HF") / (d f_i d f_j) =^? 0
   $
-- In Koopmans functionals:
+
+#pagebreak()
+*Koopmans functionals*
 $
   E_"KI" [\{rho_i\}] = & E_"DFT" [rho]
   + sum_i (
@@ -218,10 +219,10 @@ $
     - (E_"DFT" [rho] - mark(E_"DFT" [rho^(f_i arrow.r 0)], tag: #<eNm1>, color: #accent))
     + f_i (mark(E_"DFT" [rho^(f_i arrow.r 1)], tag: #<eNp1>, color: #accent) - mark(E_"DFT" [rho^(f_i arrow.r 0)], tag: #<eNm1b>, color: #accent))
   )
+  =^? 
 $
 
-  #pause
-  #annot(<eNp1>, pos: top, dy: -2.5em)[total energy differences]
+  #annot(<eNp1>, pos: bottom, dy: 2em)[total energy differences]
   #annot(<eNm1>, pos: bottom, dy: 2em)[cannot be evaluated directly]
 
 #slide[
@@ -239,14 +240,14 @@ $
   image("figures/fig_pwl_alphaKI.svg", height: 100%)
 )
 ]
-== Screening
+== Screening: how to calculate the ideal $alpha$?
 
 #align(center)[
-  #only("1", image("figures/alpha_calc/fig_alpha_calc_step_0.svg", width: 45%))
-  #only("2", image("figures/alpha_calc/fig_alpha_calc_step_1.svg", width: 45%))
-  #only("3,4", image("figures/alpha_calc/fig_alpha_calc_step_2.svg", width: 45%))
-  #only("5", image("figures/alpha_calc/fig_alpha_calc_step_3.svg", width: 45%))
-  #only("6-", image("figures/alpha_calc/fig_alpha_calc_step_4.svg", width: 45%))
+  #only("1", image("figures/alpha_calc/fig_alpha_calc_step_0.svg", width: 40%))
+  #only("2", image("figures/alpha_calc/fig_alpha_calc_step_1.svg", width: 40%))
+  #only("3,4", image("figures/alpha_calc/fig_alpha_calc_step_2.svg", width: 40%))
+  #only("5", image("figures/alpha_calc/fig_alpha_calc_step_3.svg", width: 40%))
+  #only("6-", image("figures/alpha_calc/fig_alpha_calc_step_4.svg", width: 40%))
 ]
 
 #only("4,5,6")[
@@ -298,6 +299,7 @@ How can we avoid explicit charged defect calculations in a supercell?
 
 #uncover("4-")[N.B. even for the supercell, we can still reconstruct a band structure@DeGennaro2022]
 
+= To summarise...
 == To summarise...
 
 When performing a Koopmans calculation, you must decide...
@@ -313,10 +315,10 @@ When performing a Koopmans calculation, you must decide...
 
 #set text(size: 0.9em)
 Ionisation potentials of 100 molecules cf. CCSD(T)
-#align(center, image("figures/colonna_2019_gw100_ip.jpeg", height: 22%))
+#align(center, image("figures/colonna_2019_gw100_ip.jpeg", height: 29%))
 
 Ultraviolet photoemission spectra
-#align(center, image("figures/fig_nguyen_prl_spectra.png", height: 30%))
+#align(center, image("figures/fig_nguyen_prl_spectra.png", height: 32%))
 
 @Colonna2018@Nguyen2015
 
@@ -389,9 +391,12 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 
 == Photocatalytic water-splitting
 
-#grid(columns: (1fr, 1fr), column-gutter: 1.5em, align: horizon + center,
-  image("figures/water_splitting.png", width: 95%),
-  image("figures/anatase_water_slab.png", width: 95%),
+#align(horizon + center,
+
+  image("figures/water_splitting.png", width: 70%)
+)
+#align(horizon + center,
+  image("figures/anatase_water_slab.png", width: 60%),
 )
 @Stojkovic2026
 
@@ -405,6 +410,7 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 ]
 @Stojkovic2026
 
+  *Slab calculations only semi-local!*
 == Toy systems
 
 For Hooke's atom (two electrons in a harmonic confining potential with Coulombic repulsion)
@@ -480,8 +486,6 @@ $
   @Schubert2024
 ]
 == Machine-learned electronic screening
-
-#pagebreak()
 
 #slide[
   #align(
@@ -689,13 +693,13 @@ Complicated workflows mean that...
 == koopmans is scriptable
 
 
-#listing("scripts/si.py", lang: "python", size: 0.78em)
+#listing("scripts/si.py", lang: "python", size: 0.75em)
 
 #pause
 but don't get too used to it... #pause
 
 #focus-slide()[
-  🚧 koopmans v2 is coming... 🚧
+  🚧 koopmans `v2` is coming... 🚧
 ]
 
 == 
