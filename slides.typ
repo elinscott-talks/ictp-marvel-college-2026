@@ -64,15 +64,14 @@
 
 #title-slide()
 
-// ===========================================================================
 == Core theory
 
 $
-  E_"Koopmans" [rho, #text(fill: accent)[$\{f_i\}$], #text(fill: accent)[$\{alpha_i\}$]]
+  E_"Koopmans" [rho, \{f_i\}, \{alpha_i\}]
   = E_"DFT" [rho]
-  + sum_i #text(fill: accent)[$alpha_i$]
+  + sum_i alpha_i
   (- underbrace(integral_0^(f_i) epsilon_i (f) dif f, "removes curvature")
-   + underbrace(f_i #text(fill: accent)[$eta_i$], "restores linearity"))
+   + underbrace(f_i eta_i, "restores linearity"))
 $
 
 #v(1em)
@@ -86,7 +85,6 @@ Differences to semi-local functionals:
 
 @Dabo2010@Borghi2014@Colonna2019
 
-// ===========================================================================
 = Flavours
 == Flavours of Koopmans functionals
 
@@ -115,7 +113,6 @@ One degree of freedom: what should be the gradient of this linear term?
 - "pKIPZ" = KIPZ Hamiltonian evaluated on the KI solution #pause
 - "K" = an earlier iteration based off half-filling rather than integer endpoints (no longer used)
 
-// ===========================================================================
 = Orbital-density-dependence
 == Orbital-density-dependence
 
@@ -136,7 +133,6 @@ $
   $
 ]
 
-// ===========================================================================
 == Orbital-density-dependence
 
 Initialise with MLWFs, then (optionally) solve with CG minimisation:
@@ -161,7 +157,6 @@ Gives rise to a set of *minimising orbitals* (localised/variational); diagonalis
 )
 @Nguyen2018
 
-// ===========================================================================
 == Importance of localisation
 
 #align(center, image("figures/nguyen_bulk_limit.png", width: 55%))
@@ -182,17 +177,21 @@ Gives rise to a set of *minimising orbitals* (localised/variational); diagonalis
   $
 ]
 
-// ===========================================================================
+#only("5-")[
+#align(center, 
+[*Solution: apply Koopmans correction to localised orbitals*])
+]
+
 == Orbital-density-dependence
 
 Other features of orbital-density-dependence
 #pause
 - ODD functional means that we know $hat(H) lr(|phi_i angle.r)$ for variational orbitals $\{lr(|phi_i angle.r)\}$ but we don't know $hat(H)$ in general #pause
 - Practically we can often use MLWFs #pause
-- a natural generalisation in the direction of spectral functional theory (as discussed already by Nicola)@Ferretti2014
+- a natural generalisation in the direction of spectral functional theory@Ferretti2014
 
-// ===========================================================================
 = Screening
+
 == Screening
 
 #set text(size: 0.9em)
@@ -203,13 +202,43 @@ Other features of orbital-density-dependence
     - (psi_i^* (bold(r)) psi_j^* (bold(r)') psi_i (bold(r)') psi_j (bold(r)))/(bold(r) - bold(r)')
   $
   #pause
-- Account for screening post-hoc:
-  $ (dif E)/(dif f_i) approx alpha_i (partial E)/(partial f_i) $
+  $
+    (d^2 E_"ee"^"HF") / (d f_i d f_j) =^? 0
+  $
+- In Koopmans functionals:
+$
+  E_"KI" [\{rho_i\}] = & E_"DFT" [rho]
+  + sum_i (
+    - integral_0^(f_i) epsilon_i (f) dif f
+    + f_i integral_0^1 epsilon_i (f) dif f
+  )
   #pause
-- How to choose an appropriate value for $alpha_i$? Return to the original idea of Koopmans functionals:
-  $ epsilon_i^"Koopmans" = E_i (N - 1) - E(N) $
+  \ = & E_"DFT" [rho]
+  + sum_i (
+    - (E_"DFT" [rho] - mark(E_"DFT" [rho^(f_i arrow.r 0)], tag: #<eNm1>, color: #accent))
+    + f_i (mark(E_"DFT" [rho^(f_i arrow.r 1)], tag: #<eNp1>, color: #accent) - mark(E_"DFT" [rho^(f_i arrow.r 0)], tag: #<eNm1b>, color: #accent))
+  )
+$
 
-// ===========================================================================
+  #pause
+  #annot(<eNp1>, pos: top, dy: -2.5em)[total energy differences]
+  #annot(<eNm1>, pos: bottom, dy: 2em)[cannot be evaluated directly]
+
+#slide[
+#align(center + horizon,
+  image("figures/fig_pwl_DFT.svg", height: 100%)
+)
+]
+#slide[
+#align(center + horizon,
+  image("figures/fig_pwl_uKI.svg", height: 100%)
+)
+]
+#slide[
+#align(center + horizon,
+  image("figures/fig_pwl_alphaKI.svg", height: 100%)
+)
+]
 == Screening
 
 #align(center)[
@@ -232,7 +261,6 @@ Other features of orbital-density-dependence
   $ alpha_(n+1) = alpha_n (E_i (N - 1) - E(N) - lambda_(i i) (0)) / (lambda_(i i) (alpha_n) - lambda_(i i) (0)) $
 ]
 
-// ===========================================================================
 == Screening
 
 #v(8em)
@@ -253,7 +281,6 @@ $
 $
 #v(5em)
 
-// ===========================================================================
 == Screening via DFPT
 
 How can we avoid explicit charged defect calculations in a supercell?
@@ -271,7 +298,6 @@ How can we avoid explicit charged defect calculations in a supercell?
 
 #uncover("4-")[N.B. even for the supercell, we can still reconstruct a band structure@DeGennaro2022]
 
-// ===========================================================================
 == To summarise...
 
 When performing a Koopmans calculation, you must decide...
@@ -282,7 +308,6 @@ When performing a Koopmans calculation, you must decide...
   - are we going to explicitly minimise the ODD? #pause
 - how are we calculating the screening parameters? (finite differences, DFPT, ML...)
 
-// ===========================================================================
 = Results
 == Molecules
 
@@ -295,7 +320,6 @@ Ultraviolet photoemission spectra
 
 @Colonna2018@Nguyen2015
 
-// ===========================================================================
 == Koopmans functionals: results for solids
 
 #align(horizon, 
@@ -324,7 +348,6 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 )
 @Nguyen2018
 
-// ===========================================================================
 // == Solids
 // 
 // #align(center)[
@@ -598,7 +621,6 @@ $bold(k) in "BZ"$ $arrow.r$ $bold(k) in "IBZ"(bold(q))$ (can only use symmetries
 
 #align(horizon + center, image("figures/bz-to-ibz-speedup.svg", height: 100%))
 
-// ===========================================================================
 = Running a Koopmans functional calculation
 == The workflows
 
@@ -607,7 +629,6 @@ The general workflow:
 - calculate the screening parameters $\{alpha_i\}$
 - construct and diagonalize the Hamiltonian
 
-// ===========================================================================
 == The workflows
 
 #uncover("1-")[
@@ -620,7 +641,6 @@ The general workflow:
   #align(center, image("figures/primitive_workflow.svg", width: 65%))
 ]
 
-// ===========================================================================
 == How do I run these calculations?
 
 Complicated workflows mean that...
@@ -632,12 +652,10 @@ Complicated workflows mean that...
 
 #pause Our solution...
 
-// ===========================================================================
 #focus-slide()[
   #align(center, image("media/logos/koopmans_white_on_transparent.svg", width: 80%))
 ]
 
-// ===========================================================================
 == The #raw("koopmans") package
 
 #grid(columns: (55%, 45%), column-gutter: 1em, align: horizon + left,
@@ -661,7 +679,6 @@ Complicated workflows mean that...
   ],
 )
 
-// ===========================================================================
 == koopmans: the input file
 
 #grid(columns: (1fr, 1fr), column-gutter: 1em,
@@ -669,7 +686,6 @@ Complicated workflows mean that...
   listing-lines("scripts/si.json", 20, lang: "json", size: 0.85em),
 )
 
-// ===========================================================================
 == koopmans is scriptable
 
 
@@ -706,7 +722,6 @@ but don't get too used to it... #pause
   image("figures/aiida-speed-up.svg", width: 70%)
 )
 
-// ===========================================================================
 == Automated Wannierisation
 #slide()[
   Koopmans functionals rely heavily on Wannier functions...
@@ -742,7 +757,6 @@ but don't get too used to it... #pause
 // 
 // #uncover("6-")[We will see examples in the hands-on!]
 
-// ===========================================================================
 == Take home messages
 
 #align(center, grid(columns: 3, column-gutter: 1.5em, align: horizon,
@@ -758,12 +772,10 @@ but don't get too used to it... #pause
 - the complexity of the workflows are handled by the #raw("koopmans") package
 - keep your eyes peeled for `v2`!
 
-// ===========================================================================
 == Take home messages
 
 #align(center + horizon, image("figures/jctc.png", width: 100%))
 
-// ===========================================================================
 
 #focus-slide()[Thank you!]
 
@@ -795,16 +807,12 @@ but don't get too used to it... #pause
   slides available at #box(image("logos/github-favicon.png", height: 0.9em)) github/elinscott-talks
 ]
 
-// ===========================================================================
 == References
 #bibliography("references.bib")
 
-// ===========================================================================
 // Spare slides
-// ===========================================================================
 #focus-slide[Spare slides]
 
-// ===========================================================================
 == Off-diagonal occupancies
 
 #block(fill: luma(235), inset: 12pt, radius: 4pt, width: 100%)[
