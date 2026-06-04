@@ -1,7 +1,7 @@
 #import "touying/lib.typ": *
 #import "@preview/pinit:0.1.4": *
 #import "@preview/xarrow:0.3.0": xarrow
-#import "@preview/cetz:0.3.3"
+#import "@preview/cetz:0.4.1"
 #import "@preview/mannot:0.3.0": *
 #import "psi-slides-0.6.1.typ": *
 #import "@preview/algorithmic:1.0.3"
@@ -47,6 +47,54 @@
 #let primary = rgb("#dc005a")
 #let secondary = rgb("#f0f500")
 #let connector(label) = align(center, stack(spacing: 3pt, text(size: 0.7em, label), $arrow.r.long$))
+// DFPT schematic: a supercell calculation = a primitive-cell calculation + a q-point sum
+#let dfpt-supercell-diagram = cetz.canvas(length: 0.7cm, {
+  import cetz.draw: *
+
+  let cell = 1.6
+  let dot = 0.22
+  // two-atom basis at fractional (0, 0) and (0.5, 0.5) of each cell
+  let basis = ((0, 0), (0.5, 0.5))
+
+  // supercell (2x2), reference cell highlighted
+  rect((0, 0), (cell, cell), fill: secondary, stroke: primary + 1.2pt)
+  rect((cell, 0), (2 * cell, cell), stroke: primary + 1.2pt)
+  rect((0, cell), (cell, 2 * cell), stroke: primary + 1.2pt)
+  rect((cell, cell), (2 * cell, 2 * cell), stroke: primary + 1.2pt)
+  for c in ((0, 0), (1, 0), (0, 1), (1, 1)) {
+    for b in basis {
+      circle(
+        ((c.at(0) + b.at(0)) * cell, (c.at(1) + b.at(1)) * cell),
+        radius: dot, fill: primary, stroke: none,
+      )
+    }
+  }
+  content((cell, -0.6), text(size: 0.8em)[supercell])
+
+  content((2 * cell + 1.0, cell), text(weight: "bold", size: 1.8em)[$=$])
+
+  // primitive cell
+  let px = 2 * cell + 2.0
+  rect((px, cell / 2), (px + cell, cell / 2 + cell), fill: secondary, stroke: primary + 1.2pt)
+  for b in basis {
+    circle((px + b.at(0) * cell, cell / 2 + b.at(1) * cell), radius: dot, fill: primary, stroke: none)
+  }
+  content((px + cell / 2, -0.6), text(size: 0.8em)[primitive cell])
+
+  content((px + cell + 1.0, cell), text(weight: "bold", size: 1.8em)[$+$])
+
+  // reciprocal space: q-point mesh
+  let qx = px + cell + 2.0
+  let qy = cell / 2
+  let s = 0.9 * cell
+  let ax = 1.5 * cell // axis length = 1.5 x the lattice edge length
+  line((qx, qy), (qx + ax, qy), mark: (end: ">", fill: black), stroke: 1.2pt)
+  line((qx, qy), (qx, qy + ax), mark: (end: ">", fill: black), stroke: 1.2pt)
+  for c in ((0, 0), (1, 0), (0, 1), (1, 1)) {
+    circle((qx + c.at(0) * s, qy + c.at(1) * s), radius: dot, fill: luma(140), stroke: none)
+  }
+  content((qx + s / 2, -0.6), text(size: 0.8em)[$bold(q)$ points])
+})
 // code listing helper
 #let listing(path, lang: none, size: 0.5em) = block(
   fill: luma(245), inset: 7pt, radius: 3pt, width: 100%,
@@ -67,7 +115,7 @@
 == Core theory
 
 $
-  E_"Koopmans" [rho, \{f_i\}, \{alpha_i\}]
+  E_"Koopmans" [rho, {f_i}, {alpha_i}]
   = E_"DFT" [rho]
   + sum_i alpha_i
   (- underbrace(integral_0^(f_i) epsilon_i (f) dif f, "removes curvature")
@@ -88,17 +136,17 @@ Differences to semi-local functionals:
 = Flavours
 == Flavours of Koopmans functionals
 
-#only("1")[$
-  E_"Koopmans" [rho, \{f_i\}, \{alpha_i\}] = E_"DFT" [rho]
+#only("1-2")[$
+  E_"Koopmans" [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
   + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i eta_i)
 $]
-#only("2")[$
-  E_(#text(fill: accent)[KI]) [rho, \{f_i\}, \{alpha_i\}] = E_"DFT" [rho]
+#only("3")[$
+  E_(#text(fill: accent)[KI]) [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
   + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i integral_0^1 epsilon_i (f) dif f)
 $]
-#only("3-")[$
-  E_(#text(fill: accent)[KIPZ]) [rho, \{f_i\}, \{alpha_i\}] = E_"DFT" [rho]
-  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i \{ integral_0^1 epsilon_i (f) dif f - E_"Hxc" [n_i] \})
+#only("4-")[$
+  E_(#text(fill: accent)[KIPZ]) [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
+  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i { integral_0^1 epsilon_i (f) dif f - E_"Hxc" [n_i] })
 $]
 
 One degree of freedom: what should be the gradient of this linear term?
@@ -117,9 +165,9 @@ One degree of freedom: what should be the gradient of this linear term?
 == Orbital-density-dependence
 
 $
-  - integral_0^(f_i) epsilon_i (f) dif f
-  + f_i integral_0^1 epsilon_i (f) dif f
-  = E_"Hxc" [rho] + E_"Hxc" [rho - rho_i]
+  & - integral_0^(f_i) epsilon_i (f) dif f
+  + f_i integral_0^1 epsilon_i (f) dif f \
+  =& E_"Hxc" [rho] + E_"Hxc" [rho - rho_i]
   + f_i (- E_"Hxc" [rho - rho_i] + E_"Hxc" [rho - rho_i + n_i])
 $
 
@@ -186,7 +234,7 @@ Gives rise to a set of *minimising orbitals* (localised/variational); diagonalis
 
 Other features of orbital-density-dependence
 #pause
-- ODD functional means that we know $hat(H) lr(|phi_i angle.r)$ for variational orbitals $\{lr(|phi_i angle.r)\}$ but we don't know $hat(H)$ in general #pause
+- ODD functional means that we know $hat(H) lr(|phi_i angle.r)$ for variational orbitals ${lr(|phi_i angle.r)}$ but we don't know $hat(H)$ in general #pause
 - Practically we can often use MLWFs #pause
 - a natural generalisation in the direction of spectral functional theory@Ferretti2014
 
@@ -208,7 +256,7 @@ In *Hartree-Fock* (the original "Koopmans' theorem")@Li2017
 #pagebreak()
 *Koopmans functionals*
 $
-  E_"KI" [\{rho_i\}] = & E_"DFT" [rho]
+  E_"KI" [{rho_i}] = & E_"DFT" [rho]
   + sum_i (
     - integral_0^(f_i) epsilon_i (f) dif f
     + f_i integral_0^1 epsilon_i (f) dif f
@@ -219,7 +267,6 @@ $
     - (E_"DFT" [rho] - mark(E_"DFT" [rho^(f_i arrow.r 0)], tag: #<eNm1>, color: #accent))
     + f_i (mark(E_"DFT" [rho^(f_i arrow.r 1)], tag: #<eNp1>, color: #accent) - mark(E_"DFT" [rho^(f_i arrow.r 0)], tag: #<eNm1b>, color: #accent))
   )
-  =^? 
 $
 
   #annot(<eNp1>, pos: bottom, dy: 2em)[total energy differences]
@@ -295,6 +342,8 @@ How can we avoid explicit charged defect calculations in a supercell?
   ... in reciprocal space@Colonna2022
   $ alpha_(bold(0) i) = 1 + (sum_bold(q) lr(angle.l v_("pert", bold(q))^(bold(0) i) | Delta_bold(q)^(bold(0) i) n angle.r)) / (sum_bold(q) lr(angle.l n_bold(q)^(bold(0) i) | v_("pert", bold(q))^(bold(0) i) angle.r)) $
 
+  #v(0.5em)
+  #align(center, dfpt-supercell-diagram)
 ]
 
 #uncover("4-")[N.B. even for the supercell, we can still reconstruct a band structure@DeGennaro2022]
@@ -630,7 +679,7 @@ $bold(k) in "BZ"$ $arrow.r$ $bold(k) in "IBZ"(bold(q))$ (can only use symmetries
 
 The general workflow:
 - define/initialize a set of variational orbitals
-- calculate the screening parameters $\{alpha_i\}$
+- calculate the screening parameters ${alpha_i}$
 - construct and diagonalize the Hamiltonian
 
 == The workflows
