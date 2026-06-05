@@ -224,23 +224,28 @@ $
 
 == Screening
 
-#v(8em)
-$
-  alpha^(n+1) = mark(alpha^n, tag: #<alpha_guess>, color: #accent)
-  (mark(E_i (N - 1), tag: #<enm1>, color: #accent) - mark(E(N), tag: #<en>, color: #accent) - lambda_(i i) (0))
-  / (mark(lambda_(i i) (alpha^n), tag: #<lama>, color: #accent) - mark(lambda_(i i) (0), tag: #<lam0>, color: #accent))
-$
+// Reveal each highlight (pink) in sync with its annotation: the mark colour is
+// a plain value driven by the current subslide, so the equation re-renders each
+// step (avoids touying reveal-wrappers inside the math fraction).
+#slide(repeat: 5, self => {
+  let ss = self.subslide
+  let col(s) = if ss >= s { accent } else { black }
+  [
+    #v(8em)
+    $
+      alpha^(n+1) = mark(alpha^n, tag: #<alpha_guess>, color: #(col(1)))
+      (mark(E_i (N - 1), tag: #<enm1>, color: #(col(2))) - mark(E(N), tag: #<en>, color: #(col(3))) - lambda_(i i) (0))
+      / (mark(lambda_(i i) (alpha^n), tag: #<lama>, color: #(col(4))) - mark(lambda_(i i) (0), tag: #<lam0>, color: #(col(5))))
+    $
 
-  #annot(<alpha_guess>, pos: bottom, dy: 4.5em)[trial screening \ parameter]
-  #pause
-  #annot(<enm1>, pos: top, dy: -3.5em)[total energy with electron \ removed from orbital $i$]
-  #pause
-  #annot(<en>, pos: top, dy: -1.5em)[total energy \ of neutral system]
-  #pause
-  #annot(<lama>, pos: bottom, dy: 1em)[expectation value \ of $hat(H)^"Koopmans"$]
-  #pause
-  #annot(<lam0>, pos: bottom, dy: 3.5em)[expectation value \ of $hat(H)^"DFT"$]
-#v(5em)
+    #annot(<alpha_guess>, pos: bottom, dy: 4.5em)[trial screening \ parameter]
+    #if ss >= 2 { annot(<enm1>, pos: top, dy: -3.5em)[total energy with electron \ removed from orbital $i$] }
+    #if ss >= 3 { annot(<en>, pos: top, dy: -1.5em)[total energy \ of neutral system] }
+    #if ss >= 4 { annot(<lama>, pos: bottom, dy: 1em)[expectation value \ of $hat(H)^"Koopmans"$] }
+    #if ss >= 5 { annot(<lam0>, pos: bottom, dy: 3.5em)[expectation value \ of $hat(H)^"DFT"$] }
+    #v(5em)
+  ]
+})
 
 == Screening via DFPT
 
