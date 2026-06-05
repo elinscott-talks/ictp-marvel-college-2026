@@ -48,7 +48,7 @@
 #let secondary = rgb("#f0f500")
 #let connector(label) = align(center, stack(spacing: 3pt, text(size: 0.7em, label), $arrow.r.long$))
 // DFPT schematic: a supercell calculation = a primitive-cell calculation + a q-point sum
-#let dfpt-supercell-diagram = cetz.canvas(length: 0.7cm, {
+#let dfpt-supercell-diagram = cetz.canvas(length: 1.4cm, {
   import cetz.draw: *
 
   let cell = 1.6
@@ -112,6 +112,10 @@
 
 #title-slide()
 
+#slide[
+  #align(center + horizon, image("figures/fig_en_curve_sl_annotated_zoom.svg", height: 90%))
+]
+
 == Core theory
 
 $
@@ -127,131 +131,40 @@ $
 #pause
 Differences to semi-local functionals:
 #pause
+- screening #pause
 - different flavours #pause
-- orbital-density dependence #pause
-- screening
+- orbital-density dependence
 
 @Dabo2010@Borghi2014@Colonna2019
-
-= Flavours
-== Flavours of Koopmans functionals
-
-#only("1-2")[$
-  E_"Koopmans" [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
-  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i eta_i)
-$]
-#only("3")[$
-  E_(#text(fill: accent)[KI]) [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
-  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i integral_0^1 epsilon_i (f) dif f)
-$]
-#only("4-")[$
-  E_(#text(fill: accent)[KIPZ]) [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
-  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i { integral_0^1 epsilon_i (f) dif f - E_"Hxc" [n_i] })
-$]
-
-One degree of freedom: what should be the gradient of this linear term?
-
-#pause
-- the base functional $arrow$ "KI" (Koopmans integral). Enforces IP theorem. Does not affect energy/density! #pause
-- with a PZ correction $arrow$ "KIPZ"
-
-#pause You might also see...
-
-#pause
-- "pKIPZ" = KIPZ Hamiltonian evaluated on the KI solution #pause
-- "K" = an earlier iteration based off half-filling rather than integer endpoints (no longer used)
-
-= Orbital-density-dependence
-== Orbital-density-dependence
-
-$
-  & - integral_0^(f_i) epsilon_i (f) dif f
-  + f_i integral_0^1 epsilon_i (f) dif f \
-  =& E_"Hxc" [rho] + E_"Hxc" [rho - rho_i]
-  + f_i (- E_"Hxc" [rho - rho_i] + E_"Hxc" [rho - rho_i + n_i])
-$
-
-#uncover("2-")[
-  For filled orbitals with KI:
-  $
-    v_i^"KI" \/ alpha_i = - E_"H" [n_i]
-    + E_"xc" [rho]
-    - E_"xc" [rho - n_i]
-    - integral dif bold(r)' thin v_"xc" (bold(r)', [rho]) thin n_i (bold(r)')
-  $
-]
-
-== Orbital-density-dependence
-
-Initialise with MLWFs, then (optionally) solve with CG minimisation:
-#pause
-/ outer loop: $phi_i^((n+1)) = phi_i^((n)) + Delta_i$
-#pause
-/ inner loop: $phi_i^((n+1)) = sum_j U_(i j) phi_j^((n))$
-#pause
-
-For more details see @Borghi2015
-#pause
-
-Gives rise to a set of *minimising orbitals* (localised/variational); diagonalising at the minimum gives rise to *diagonalising orbitals* (delocalised/canonical)
-
-#pagebreak()
-
-#grid(columns: (1fr, 1fr), column-gutter: 0em, align: center,
-  rotate(90deg, image("figures/fig_nguyen_variational_orbital.png", height: 80%)),
-  rotate(90deg, image("figures/fig_nguyen_canonical_orbital.png", height: 80%)),
-  [variational],
-  [canonical]
-)
-@Nguyen2018
-
-== Importance of localisation
-
-#align(center, image("figures/nguyen_bulk_limit.png", width: 55%))
-@Nguyen2018
-
-#v(-2em)
-
-#only("2,3")[In the bulk limit for one cell $Delta E = E(N - delta N) - E(N)$]
-
-#only("3")[Across all the cells $Delta E = 1/(delta N) (E(N - delta N) - E(N)) = - (dif E)/(dif N) = - epsilon_"HO"$]
-
-#only("4-")[
-  $
-    lim_(n_i (r) arrow 0) v_i^"KI" \/ alpha_i =
-    lim_(n_i (r) arrow 0)
-    - E_"H" [n_i] + E_"xc" [rho] - E_"xc" [rho - n_i]
-    - integral dif bold(r)' thin v_"xc" (bold(r)', [rho]) thin n_i (bold(r)') = 0
-  $
-]
-
-#only("5-")[
-#align(center, 
-[*Solution: apply Koopmans correction to localised orbitals*])
-]
-
-== Orbital-density-dependence
-
-Other features of orbital-density-dependence
-#pause
-- ODD functional means that we know $hat(H) lr(|phi_i angle.r)$ for variational orbitals ${lr(|phi_i angle.r)}$ but we don't know $hat(H)$ in general #pause
-- Practically we can often use MLWFs #pause
-- a natural generalisation in the direction of spectral functional theory@Ferretti2014
 
 = Screening
 
 == Screening
 
-In *Hartree-Fock* (the original "Koopmans' theorem")@Li2017
+In *Hartree-Fock* @Li2017
   $
     E_"ee"^"HF" = 1/2 sum_(i j) f_i f_j integral dif bold(r) dif bold(r)'
     (|psi_i (bold(r))|^2 |psi_j (bold(r)')|^2)/(bold(r) - bold(r)')
     - (psi_i^* (bold(r)) psi_j^* (bold(r)') psi_i (bold(r)') psi_j (bold(r)))/(bold(r) - bold(r)')
-  $
   #pause
+    arrow.r (d^2 E_"ee"^"HF") / (d f_i^2) =^? 0
   $
-    (d^2 E_"ee"^"HF") / (d f_i d f_j) =^? 0
-  $
+
+#pause
+
+#grid(columns: (auto, 1fr), column-gutter: 1em, align: top,
+  [
+    #image("figures/TjallingKoopmans1967.jpg", height: 40%)
+  ],
+  [
+    #quote(block: true, attribution: [Koopmans' theorem, 1934@Koopmans1934])[
+      In Hartree-Fock, the first ionisation energy of a system is equal to the negative of the highest occupied orbital's energy $-epsilon_"HOMO"^"HF"$.
+    ]
+    $ "IP" = E(N - 1) - E(N) = - epsilon_"HOMO"^"HF" $
+    #pause
+    ... exact only if the remaining orbitals do not relax.
+  ],
+)
 
 #pagebreak()
 *Koopmans functionals*
@@ -316,8 +229,9 @@ $
   alpha^(n+1) = mark(alpha^n, tag: #<alpha_guess>, color: #accent)
   (mark(E_i (N - 1), tag: #<enm1>, color: #accent) - mark(E(N), tag: #<en>, color: #accent) - lambda_(i i) (0))
   / (mark(lambda_(i i) (alpha^n), tag: #<lama>, color: #accent) - mark(lambda_(i i) (0), tag: #<lam0>, color: #accent))
+$
 
-  #annot(<alpha_guess>, pos: bottom, dy: 4.5em)[screening parameter]
+  #annot(<alpha_guess>, pos: bottom, dy: 4.5em)[trial screening \ parameter]
   #pause
   #annot(<enm1>, pos: top, dy: -3.5em)[total energy with electron \ removed from orbital $i$]
   #pause
@@ -326,27 +240,133 @@ $
   #annot(<lama>, pos: bottom, dy: 1em)[expectation value \ of $hat(H)^"Koopmans"$]
   #pause
   #annot(<lam0>, pos: bottom, dy: 3.5em)[expectation value \ of $hat(H)^"DFT"$]
-$
 #v(5em)
 
 == Screening via DFPT
 
 How can we avoid explicit charged defect calculations in a supercell?
 
-#uncover("2-")[
+  #pause
   Reformulate in terms of DFPT@Colonna2019...
   $ alpha_i = 1 + (lr(angle.l v_"pert"^i | Delta^i n angle.r)) / (lr(angle.l n_i | v_"pert"^i angle.r)) $
-]
 
-#uncover("3-")[
+  #pause
   ... in reciprocal space@Colonna2022
   $ alpha_(bold(0) i) = 1 + (sum_bold(q) lr(angle.l v_("pert", bold(q))^(bold(0) i) | Delta_bold(q)^(bold(0) i) n angle.r)) / (sum_bold(q) lr(angle.l n_bold(q)^(bold(0) i) | v_("pert", bold(q))^(bold(0) i) angle.r)) $
 
-  #v(0.5em)
-  #align(center, dfpt-supercell-diagram)
+#pagebreak()
+  #align(center + horizon, dfpt-supercell-diagram)
+
+
+= Orbital-density-dependence
+== Orbital-density-dependence
+
+$
+  & - integral_0^(f_i) epsilon_i (f) dif f
+  + f_i integral_0^1 epsilon_i (f) dif f \
+  =& E_"Hxc" [rho] + E_"Hxc" [rho - rho_i]
+  + f_i (- E_"Hxc" [rho - rho_i] + E_"Hxc" [rho - rho_i + n_i])
+$
+
+#uncover("2-")[
+  For filled orbitals with KI:
+  $
+    v_i^"KI" \/ alpha_i = - E_"H" [n_i]
+    + E_"xc" [rho]
+    - E_"xc" [rho - n_i]
+    - integral dif bold(r)' thin v_"xc" (bold(r)', [rho]) thin n_i (bold(r)')
+  $
 ]
 
-#uncover("4-")[N.B. even for the supercell, we can still reconstruct a band structure@DeGennaro2022]
+== Orbital-density-dependence
+
+Minimise $E[rho, rho_i]$ with CG minimisation:
+#pause
+/ outer loop: $phi_i^((n+1)) = phi_i^((n)) + Delta_i$
+#pause
+/ inner loop: $phi_i^((n+1)) = sum_j U_(i j) phi_j^((n))$
+#pause
+
+For more details see Borghi _et al._ (2015) @Borghi2015
+#pause
+
+- gives rise to a set of *minimising orbitals* (localised/variational) #pause
+- diagonalising at the minimum gives rise to *diagonalising orbitals* (delocalised/canonical)
+
+#pagebreak()
+
+#grid(columns: (1fr, 1fr), column-gutter: 0em, align: center,
+  rotate(90deg, image("figures/fig_nguyen_variational_orbital.png", height: 80%)),
+  rotate(90deg, image("figures/fig_nguyen_canonical_orbital.png", height: 80%)),
+  [variational],
+  [canonical]
+)
+@Nguyen2018
+
+== Importance of localisation
+
+#align(center, image("figures/nguyen_bulk_limit.png", width: 55%))
+@Nguyen2018
+
+#v(-2em)
+
+#only("2,3")[In the bulk limit for one cell $Delta E = E(N - delta N) - E(N)$]
+
+#only("3")[Across all the cells $Delta E = 1/(delta N) (E(N - delta N) - E(N)) = - (dif E)/(dif N) = - epsilon_"HO"$]
+
+#only("4-")[
+  $
+    lim_(n_i (r) arrow 0) v_i^"KI" \/ alpha_i =
+    lim_(n_i (r) arrow 0)
+    - E_"H" [n_i] + E_"xc" [rho] - E_"xc" [rho - n_i]
+    - integral dif bold(r)' thin v_"xc" (bold(r)', [rho]) thin n_i (bold(r)') = 0
+  $
+]
+
+#only("5-")[
+#align(center, 
+[*Solution: apply Koopmans correction to localised orbitals*])
+]
+
+== Orbital-density-dependence
+
+Other features of orbital-density-dependence
+#pause
+- ODD functional means that we know $hat(H) lr(|phi_i angle.r)$ for variational orbitals ${lr(|phi_i angle.r)}$ but we don't know $hat(H)$ in general #pause
+- Practically we can often use MLWFs #pause
+- a natural generalisation in the direction of spectral functional theory@Ferretti2014
+
+= Flavours
+== Flavours of Koopmans functionals
+
+#only("1")[$
+  E_"Koopmans" [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
+  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i eta_i)
+$]
+#only("2")[$
+  E_(#text(fill: accent)[KI]) [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
+  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i integral_0^1 epsilon_i (f) dif f)
+$]
+#only("3-")[$
+  E_(#text(fill: accent)[KIPZ]) [rho, {f_i}, {alpha_i}] = E_"DFT" [rho]
+  + sum_i alpha_i (- integral_0^(f_i) epsilon_i (f) dif f + f_i { integral_0^1 epsilon_i (f) dif f - E_"Hxc" [n_i] })
+$]
+
+One degree of freedom: what should be the gradient of this linear term?
+
+#only("2-")[
+- the base functional $arrow$ "KI" (Koopmans integral). Enforces IP theorem. Does not affect energy/density!
+]
+#only("3-")[
+- with a PZ correction $arrow$ "KIPZ"
+]
+
+#pause You might also see...
+
+#pause
+- "pKIPZ" = KIPZ Hamiltonian evaluated on the KI solution #pause
+- "K" = an earlier iteration based off half-filling rather than integer endpoints (no longer used)
+
 
 = To summarise...
 == To summarise...
@@ -357,7 +377,7 @@ When performing a Koopmans calculation, you must decide...
 - how are we treating the orbital-density-dependence?
   - how are we initialising our variational orbitals? (N.B. depends on the flavour!)
   - are we going to explicitly minimise the ODD? #pause
-- how are we calculating the screening parameters? (finite differences, DFPT, ML...)
+- how are we calculating the screening parameters? (finite differences, DFPT)
 
 = Results
 == Molecules
@@ -449,6 +469,20 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 )
 @Stojkovic2026
 
+#pagebreak()
+$
+  epsilon_i^"aligned" &= lr((epsilon_i - lr(angle.l V_H angle.r)_("TiO"_2)))_("bulk TiO"_2"")
+  + lr((lr(angle.l V_H angle.r)_("TiO"_2) - lr(angle.l V_H angle.r)_"water"))_("TiO"_2\/"water")
+  + lr((lr(angle.l V_H angle.r)_"water" - V_"vac"))_("water"\/"vac")
+$
+#pause
+
+#align(center, image("figures/band_offset.svg", width: 50%))
+  
+#pause
+#align(center, [*slab calculations only semi-local!*])
+
+
 == Band alignment for water-splitting
 
 #align(center)[
@@ -459,7 +493,6 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 ]
 @Stojkovic2026
 
-  *Slab calculations only semi-local!*
 == Toy systems
 
 For Hooke's atom (two electrons in a harmonic confining potential with Coulombic repulsion)
@@ -476,17 +509,17 @@ For Hooke's atom (two electrons in a harmonic confining potential with Coulombic
 
 #pause
 - restricted to systems with a non-zero band gap #pause
-- empty state localization in the bulk limit #pause
+- empty state localisation in the bulk limit #pause
 - can potentially break the crystal point group symmetry@Su2020
 
-== Resonance with other efforts
-
-- Wannier transition-state method of Anisimov and Kozhevnikov @Anisimov2005
-- Optimally tuned hybrid functionals of Kronik, Pasquarello, and others (refer back to Leeor's talk on Wednesday) @Kronik2012@Wing2021
-- Ensemble DFT of Kronik and co-workers @Kraisler2013
-- Koopmans-Wannier of Wang and co-workers @Ma2016
-- Dielectric-dependent hybrid functionals of Galli and co-workers @Skone2016a
-- LOSC functionals of Yang and co-workers @Li2018
+// == Resonance with other efforts
+// 
+// - Wannier transition-state method of Anisimov and Kozhevnikov @Anisimov2005
+// - Optimally tuned hybrid functionals of Kronik, Pasquarello, and others (refer back to Leeor's talk on Wednesday) @Kronik2012@Wing2021
+// - Ensemble DFT of Kronik and co-workers @Kraisler2013
+// - Koopmans-Wannier of Wang and co-workers @Ma2016
+// - Dielectric-dependent hybrid functionals of Galli and co-workers @Skone2016a
+// - LOSC functionals of Yang and co-workers @Li2018
 
 
 // === ported from the 2025 PsiQuantum deck (cost/scaling → AiiDA) =========
@@ -506,34 +539,11 @@ $
 
 #pause
 
-- a local measure of screening of electronic interactions #pause
-- one screening parameter per orbital
-- must be computed #emph[ab initio] via... #pause
-  - $Delta$SCF@Nguyen2018@DeGennaro2022a: embarrassingly parallel steps which each cost $cal(O)(N_"SC"^3) tilde cal(O)(N_bold(k)^3 N^3)$ #pause
+- one screening parameter per orbital #pause
+- must be computed #emph[ab initio] via *embarrassingly parallel* steps... #pause
+  - $Delta$SCF@Nguyen2018@DeGennaro2022a: $cal(O)(N_"SC"^3) tilde cal(O)(N_bold(k)^3 N^3)$ #pause
   - DFPT@Colonna2018@Colonna2022: $cal(O)(N_bold(k)^2 N^3)$
 
-== Machine-learned electronic screening
-#slide[
-  #grid(
-    columns: (1fr, 1fr),
-    align: center + horizon,
-    gutter: 1em,
-    image(
-      "figures/convergence_key.png",
-      height: 5%,
-    ) +  v(-1em) +
-    image(
-      "figures/convergence_fig.png",
-      height: 55%,
-    ),
-    image("figures/speedup.png", height: 60%),
-
-    [*accurate* to within $cal("O")$(10 meV) _cf._ typical band gap accuracy of $cal("O")$(100 meV)],
-    [*speedup* of $cal("O")$(10) to $cal("O")$(100)],
-  )
-
-  @Schubert2024
-]
 == Machine-learned electronic screening
 
 #slide[
@@ -644,43 +654,43 @@ The use-case
 ]
 
 
-== Taking advantage of symmetries
-To compute screening parameters via DFPT...
-#algorithm(inset: 0.3em, indent: 1em, {
-  import algorithmic: *
-  Function("CalculateAlpha", ($n$,), {
-    For($bold(q) in "BZ"$,
-    {
-        For($bold(k) in "BZ"$, {Comment[Linear system $A x = b$ to obtain $Delta psi_(bold(k)+bold(q),v)(bold(r))$]})
-          Assign[$Delta rho^(0n)_(q)$][$sum_(bold(k)v)psi^*_(bold(k)v) (bold(r))Delta psi_(bold(k)+bold(q),v)(bold(r)) + c.c.$]
-          Assign[$Pi^((r))_(0 n, bold(q))$][$angle.l Delta rho^(0 n)_(bold(q))|f_"Hxc"|rho^(0 n)_(bold(q)) angle.r$]
-          Assign[$Pi^((u))_(0 n, bold(q))$][$angle.l rho^(0 n)_bold(q)|f_"Hxc"|rho^(0 n)_bold(q) angle.r$]
-    })
-    Return[$1 + sum_bold(q) Pi^((r))_(0 n, bold(q)) \/ sum_bold(q) Pi^((u))_(0 n, bold(q))$]
-  })
-})
-
-#pagebreak()
-
-#align(center,
-  image("figures/bz-to-ibz-outer.svg", height: 80%)
-)
-$bold(q) in "BZ" $ $arrow.r$ $bold(q) in "IBZ"(n)$ (the symmetry of the perturbation; lower than that of the primitive cell)
-#pagebreak()
-#align(center,
-  image("figures/bz-to-ibz-inner.svg", height: 80%)
-)
-$bold(k) in "BZ"$ $arrow.r$ $bold(k) in "IBZ"(bold(q))$ (can only use symmetries that leave $bold(q)$ invariant)
-
-#align(horizon + center, image("figures/bz-to-ibz-speedup.svg", height: 100%))
+// == Taking advantage of symmetries
+// To compute screening parameters via DFPT...
+// #algorithm(inset: 0.3em, indent: 1em, {
+//   import algorithmic: *
+//   Function("CalculateAlpha", ($n$,), {
+//     For($bold(q) in "BZ"$,
+//     {
+//         For($bold(k) in "BZ"$, {Comment[Linear system $A x = b$ to obtain $Delta psi_(bold(k)+bold(q),v)(bold(r))$]})
+//           Assign[$Delta rho^(0n)_(q)$][$sum_(bold(k)v)psi^*_(bold(k)v) (bold(r))Delta psi_(bold(k)+bold(q),v)(bold(r)) + c.c.$]
+//           Assign[$Pi^((r))_(0 n, bold(q))$][$angle.l Delta rho^(0 n)_(bold(q))|f_"Hxc"|rho^(0 n)_(bold(q)) angle.r$]
+//           Assign[$Pi^((u))_(0 n, bold(q))$][$angle.l rho^(0 n)_bold(q)|f_"Hxc"|rho^(0 n)_bold(q) angle.r$]
+//     })
+//     Return[$1 + sum_bold(q) Pi^((r))_(0 n, bold(q)) \/ sum_bold(q) Pi^((u))_(0 n, bold(q))$]
+//   })
+// })
+// 
+// #pagebreak()
+// 
+// #align(center,
+//   image("figures/bz-to-ibz-outer.svg", height: 80%)
+// )
+// $bold(q) in "BZ" $ $arrow.r$ $bold(q) in "IBZ"(n)$ (the symmetry of the perturbation; lower than that of the primitive cell)
+// #pagebreak()
+// #align(center,
+//   image("figures/bz-to-ibz-inner.svg", height: 80%)
+// )
+// $bold(k) in "BZ"$ $arrow.r$ $bold(k) in "IBZ"(bold(q))$ (can only use symmetries that leave $bold(q)$ invariant)
+// 
+// #align(horizon + center, image("figures/bz-to-ibz-speedup.svg", height: 100%))
 
 = Running a Koopmans functional calculation
 == The workflows
 
 The general workflow:
-- define/initialize a set of variational orbitals
+- define/initialise a set of variational orbitals
 - calculate the screening parameters ${alpha_i}$
-- construct and diagonalize the Hamiltonian
+- construct and diagonalise the Hamiltonian
 
 == The workflows
 
@@ -694,16 +704,16 @@ The general workflow:
   #align(center, image("figures/primitive_workflow.svg", width: 65%))
 ]
 
-== How do I run these calculations?
-
-Complicated workflows mean that...
-#pause
-- lots of different codes that need to handshake #pause
-- lots of scope for human error #pause
-- reproducibility becomes difficult #pause
-- expert knowledge required
-
-#pause Our solution...
+// == How do I run these calculations?
+// 
+// Complicated workflows mean that...
+// #pause
+// - lots of different codes that need to handshake #pause
+// - lots of scope for human error #pause
+// - reproducibility becomes difficult #pause
+// - expert knowledge required
+// 
+// #pause Our solution...
 
 #focus-slide()[
   #align(center, image("media/logos/koopmans_white_on_transparent.svg", width: 80%))
@@ -739,13 +749,12 @@ Complicated workflows mean that...
   listing-lines("scripts/si.json", 20, lang: "json", size: 0.85em),
 )
 
-== koopmans is scriptable
-
-
-#listing("scripts/si.py", lang: "python", size: 0.75em)
-
-#pause
-but don't get too used to it... #pause
+// == koopmans is scriptable
+// 
+// #listing("scripts/si.py", lang: "python", size: 0.75em)
+// 
+// #pause
+// but don't get too used to it... #pause
 
 #focus-slide()[
   🚧 koopmans `v2` is coming... 🚧
@@ -775,27 +784,6 @@ but don't get too used to it... #pause
   image("figures/aiida-speed-up.svg", width: 70%)
 )
 
-== Automated Wannierisation
-#slide()[
-  Koopmans functionals rely heavily on Wannier functions...
-  - to initialise the minmising orbitals, _or_
-  - in place of the minimising orbitals entirely
-
-#pause
-
-#grid(
-  columns: (2fr, 2fr, 3fr),
-  align: center + horizon,
-  gutter: 1em,
-  image("figures/proj_disentanglement_fig1a.png", height: 45%),
-  image("figures/new_projs.png", height: 45%),
-  image("figures/target_manifolds_fig1b.png", height: 45%),
-
-  text("projectability-based disentanglement") + cite(<Qiao2023>),
-  text("use PAOs found in pseudopotentials"),
-  text("parallel transport to separate manifolds") + cite(<Qiao2023a>),
-)
-]
 
 // == Generic structure
 // 
@@ -829,6 +817,7 @@ but don't get too used to it... #pause
 
 #align(center + horizon, image("figures/jctc.png", width: 100%))
 
+#focus-slide()[#align(center, [`koopmans-functionals.org`])]
 
 #focus-slide()[Thank you!]
 
@@ -880,3 +869,25 @@ but don't get too used to it... #pause
 
 #v(1em)
 zero band gap $arrow$ occupancy matrix for variational orbitals is off-diagonal
+
+== Automated Wannierisation
+#slide()[
+  Koopmans functionals rely heavily on Wannier functions...
+  - to initialise the minmising orbitals, _or_
+  - in place of the minimising orbitals entirely
+
+#pause
+
+#grid(
+  columns: (2fr, 2fr, 3fr),
+  align: center + horizon,
+  gutter: 1em,
+  image("figures/proj_disentanglement_fig1a.png", height: 45%),
+  image("figures/new_projs.png", height: 45%),
+  image("figures/target_manifolds_fig1b.png", height: 45%),
+
+  text("projectability-based disentanglement") + cite(<Qiao2023>),
+  text("use PAOs found in pseudopotentials"),
+  text("parallel transport to separate manifolds") + cite(<Qiao2023a>),
+)
+]
