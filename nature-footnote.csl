@@ -89,6 +89,12 @@
           <date date-parts="year" form="text" variable="issued" prefix="(" suffix=")"/>
         </group>
       </else-if>
+      <else-if type="manuscript">
+        <group delimiter=" ">
+          <text variable="note" text-case="capitalize-first"/>
+          <date date-parts="year" form="text" variable="issued" prefix="(" suffix=")"/>
+        </group>
+      </else-if>
       <else-if type="dataset software" match="any">
         <group delimiter=" ">
           <text variable="publisher"/>

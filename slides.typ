@@ -213,7 +213,7 @@ $
 #only("4,5,6")[
   $
     lambda_(i i) (alpha) eq.triple
-    lr(angle.l phi_i | hat(h)^"DFT" + alpha hat(v)^"Koopmans" | phi_i angle.r)
+    lr(chevron.l phi_i | hat(h)^"DFT" + alpha hat(v)^"Koopmans" | phi_i chevron.r)
     = lr((dif E^"Koopmans") / (dif f_i) |)_(f_i = s)
   $
 ]
@@ -253,11 +253,11 @@ How can we avoid explicit charged defect calculations in a supercell?
 
   #pause
   Reformulate in terms of DFPT@Colonna2019...
-  $ alpha_i = 1 + (lr(angle.l v_"pert"^i | Delta^i n angle.r)) / (lr(angle.l n_i | v_"pert"^i angle.r)) $
+  $ alpha_i = 1 + (lr(chevron.l v_"pert"^i | Delta^i n chevron.r)) / (lr(chevron.l n_i | v_"pert"^i chevron.r)) $
 
   #pause
   ... in reciprocal space@Colonna2022
-  $ alpha_(bold(0) i) = 1 + (sum_bold(q) lr(angle.l v_("pert", bold(q))^(bold(0) i) | Delta_bold(q)^(bold(0) i) n angle.r)) / (sum_bold(q) lr(angle.l n_bold(q)^(bold(0) i) | v_("pert", bold(q))^(bold(0) i) angle.r)) $
+  $ alpha_(bold(0) i) = 1 + (sum_bold(q) lr(chevron.l v_("pert", bold(q))^(bold(0) i) | Delta_bold(q)^(bold(0) i) n chevron.r)) / (sum_bold(q) lr(chevron.l n_bold(q)^(bold(0) i) | v_("pert", bold(q))^(bold(0) i) chevron.r)) $
 
 #pagebreak()
   #align(center + horizon, dfpt-supercell-diagram)
@@ -337,7 +337,7 @@ For more details see Borghi _et al._ (2015) @Borghi2015
 
 Other features of orbital-density-dependence
 #pause
-- ODD functional means that we know $hat(H) lr(|phi_i angle.r)$ for variational orbitals ${lr(|phi_i angle.r)}$ but we don't know $hat(H)$ in general #pause
+- ODD functional means that we know $hat(H) lr(|phi_i chevron.r)$ for variational orbitals ${lr(|phi_i chevron.r)}$ but we don't know $hat(H)$ in general #pause
 - Practically we can often use MLWFs #pause
 - a natural generalisation in the direction of spectral functional theory@Ferretti2014
 
@@ -476,9 +476,9 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 
 #pagebreak()
 $
-  epsilon_i^"aligned" &= lr((epsilon_i - lr(angle.l V_H angle.r)_("TiO"_2)))_("bulk TiO"_2"")
-  + lr((lr(angle.l V_H angle.r)_("TiO"_2) - lr(angle.l V_H angle.r)_"water"))_("TiO"_2\/"water")
-  + lr((lr(angle.l V_H angle.r)_"water" - V_"vac"))_("water"\/"vac")
+  epsilon_i^"aligned" &= lr((epsilon_i - lr(chevron.l V_H chevron.r)_("TiO"_2)))_("bulk TiO"_2"")
+  + lr((lr(chevron.l V_H chevron.r)_("TiO"_2) - lr(chevron.l V_H chevron.r)_"water"))_("TiO"_2\/"water")
+  + lr((lr(chevron.l V_H chevron.r)_"water" - V_"vac"))_("water"\/"vac")
 $
 #pause
 
@@ -486,7 +486,8 @@ $
   
 #pause
 #align(center, [*slab calculations only semi-local!*])
-
+#v(-2em)
+@Stojkovic2026
 
 == Band alignment for water-splitting
 
@@ -496,7 +497,7 @@ $
   #only("3", image("figures/Water_BA_KI_3_solvated.svg", width: 55%))
   #only("4-", image("figures/Water_BA_KI_4_experiment.svg", width: 55%))
 ]
-@Stojkovic2026
+@Stojkovic2026@Stojkovic_inprep
 
 == Toy systems
 
@@ -539,7 +540,7 @@ image("figures/timings/benchmark.svg", width: 80%)
 The vast majority of the computational cost: determining screening parameters
 
 $
-  alpha_i = (angle.l n_i|epsilon^(-1) f_"Hxc"|n_i angle.r) / (angle.l n_i|f_"Hxc"|n_i angle.r)
+  alpha_i = (chevron.l n_i|epsilon^(-1) f_"Hxc"|n_i chevron.r) / (chevron.l n_i|f_"Hxc"|n_i chevron.r)
 $
 
 #pause
@@ -668,8 +669,8 @@ The use-case
 //     {
 //         For($bold(k) in "BZ"$, {Comment[Linear system $A x = b$ to obtain $Delta psi_(bold(k)+bold(q),v)(bold(r))$]})
 //           Assign[$Delta rho^(0n)_(q)$][$sum_(bold(k)v)psi^*_(bold(k)v) (bold(r))Delta psi_(bold(k)+bold(q),v)(bold(r)) + c.c.$]
-//           Assign[$Pi^((r))_(0 n, bold(q))$][$angle.l Delta rho^(0 n)_(bold(q))|f_"Hxc"|rho^(0 n)_(bold(q)) angle.r$]
-//           Assign[$Pi^((u))_(0 n, bold(q))$][$angle.l rho^(0 n)_bold(q)|f_"Hxc"|rho^(0 n)_bold(q) angle.r$]
+//           Assign[$Pi^((r))_(0 n, bold(q))$][$chevron.l Delta rho^(0 n)_(bold(q))|f_"Hxc"|rho^(0 n)_(bold(q)) chevron.r$]
+//           Assign[$Pi^((u))_(0 n, bold(q))$][$chevron.l rho^(0 n)_bold(q)|f_"Hxc"|rho^(0 n)_bold(q) chevron.r$]
 //     })
 //     Return[$1 + sum_bold(q) Pi^((r))_(0 n, bold(q)) \/ sum_bold(q) Pi^((u))_(0 n, bold(q))$]
 //   })
@@ -866,7 +867,7 @@ The general workflow:
   *Recap from earlier*
 
   Key idea: construct a functional such that the _variational_ orbital energies
-  $ epsilon_i^"Koopmans" = lr(angle.l phi_i | H | phi_i angle.r) = partial E_"Koopmans" \/ partial f_i $
+  $ epsilon_i^"Koopmans" = lr(chevron.l phi_i | H | phi_i chevron.r) = partial E_"Koopmans" \/ partial f_i $
   are...
   - independent of the corresponding occupancies $f_i$
   - equal to the corresponding total energy difference $E_i (N - 1) - E(N)$
