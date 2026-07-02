@@ -463,41 +463,41 @@ grid(columns: (35%, 55%), column-gutter: 2em, align: horizon + left,
 // @Shishkin2007@Hybertsen1986@Shishkin2007a@Madelung2004
 
 
-== Photocatalytic water-splitting
-
-#align(horizon + center,
-
-  image("figures/water_splitting.png", width: 70%)
-)
-#align(horizon + center,
-  image("figures/anatase_water_slab.png", width: 60%),
-)
-@Stojkovic2026
-
-#pagebreak()
-$
-  epsilon_i^"aligned" &= lr((epsilon_i - lr(chevron.l V_H chevron.r)_("TiO"_2)))_("bulk TiO"_2"")
-  + lr((lr(chevron.l V_H chevron.r)_("TiO"_2) - lr(chevron.l V_H chevron.r)_"water"))_("TiO"_2\/"water")
-  + lr((lr(chevron.l V_H chevron.r)_"water" - V_"vac"))_("water"\/"vac")
-$
-#pause
-
-#align(center, image("figures/band_offset.svg", width: 50%))
-  
-#pause
-#align(center, [*slab calculations only semi-local!*])
-#v(-2em)
-@Stojkovic2026
-
-== Band alignment for water-splitting
-
-#align(center)[
-  #only("1", image("figures/Water_BA_KI_1_potentials.svg", width: 55%))
-  #only("2", image("figures/Water_BA_KI_2_vacuum.svg", width: 55%))
-  #only("3", image("figures/Water_BA_KI_3_solvated.svg", width: 55%))
-  #only("4-", image("figures/Water_BA_KI_4_experiment.svg", width: 55%))
-]
-@Stojkovic2026@Stojkovic_inprep
+// == Photocatalytic water-splitting
+// 
+// #align(horizon + center,
+// 
+//   image("figures/water_splitting.png", width: 70%)
+// )
+// #align(horizon + center,
+//   image("figures/anatase_water_slab.png", width: 60%),
+// )
+// @Stojkovic2026
+// 
+// #pagebreak()
+// $
+//   epsilon_i^"aligned" &= lr((epsilon_i - lr(chevron.l V_H chevron.r)_("TiO"_2)))_("bulk TiO"_2"")
+//   + lr((lr(chevron.l V_H chevron.r)_("TiO"_2) - lr(chevron.l V_H chevron.r)_"water"))_("TiO"_2\/"water")
+//   + lr((lr(chevron.l V_H chevron.r)_"water" - V_"vac"))_("water"\/"vac")
+// $
+// #pause
+// 
+// #align(center, image("figures/band_offset.svg", width: 50%))
+//   
+// #pause
+// #align(center, [*slab calculations only semi-local!*])
+// #v(-2em)
+// @Stojkovic2026
+// 
+// == Band alignment for water-splitting
+// 
+// #align(center)[
+//   #only("1", image("figures/Water_BA_KI_1_potentials.svg", width: 55%))
+//   #only("2", image("figures/Water_BA_KI_2_vacuum.svg", width: 55%))
+//   #only("3", image("figures/Water_BA_KI_3_solvated.svg", width: 55%))
+//   #only("4-", image("figures/Water_BA_KI_4_experiment.svg", width: 55%))
+// ]
+// @Stojkovic2026@Stojkovic_inprep
 
 == Toy systems
 
